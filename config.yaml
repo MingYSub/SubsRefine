@@ -1,0 +1,38 @@
+# Line merging strategy (options: none, auto, force)
+# Only available for processing tv_ass subtitles
+merge_strategy: auto
+
+filter_interjections: true
+
+output:
+#  dir: path/to/output
+  format: txt             # Options: txt, srt, ass
+  ending: ""              # Characters added to the end of the sentence
+  show_speaker: false     # Includes speaker's name
+  show_pause_tip: 0       # Minimal pause seconds. Set to 0 to disable. Only available when outputting txt
+
+# Character width conversion rules
+full_half_conversion:
+  numbers: half           # Options: skip, half, full, single_full
+  letters: half           # Options: skip, half, full, single_full
+  convert_half_katakana: true
+
+# Spacing between CJK and Western characters
+cjk_spacing:
+  enabled: false
+  space_char: "\u2006"
+
+# Repeated syllable handling
+# e.g. きょ… 今日は…
+repetition_adjustment:
+  enabled: true
+  connector: "… "
+
+mapping:
+  text:
+    "！！": "!!"
+    "？！": "?!"
+    "！？": "!?"
+#  regex:
+#    "(?<=example)(SubsRefine)": "\\1"  # This is an example
+
