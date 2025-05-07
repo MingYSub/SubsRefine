@@ -7,7 +7,7 @@ filter_interjections: true
 output:
 #  dir: path/to/output
   format: txt             # Options: txt, srt, ass
-  ending: ""              # Characters added to the end of the sentence
+  ending: ''              # Characters added to the end of the sentence
   show_speaker: false     # Includes speaker's name
   show_pause_tip: 0       # Minimal pause seconds. Set to 0 to disable. Only available when outputting txt
 
@@ -26,13 +26,19 @@ cjk_spacing:
 # e.g. きょ… 今日は…
 repetition_adjustment:
   enabled: true
-  connector: "… "
+  connector: '… '
 
 mapping:
   text:
-    "！！": "!!"
-    "？！": "?!"
-    "！？": "!?"
+    '！！': '!!'
+    '？！': '?!'
+    '！？': '!?'
+#    '美味し': 'おいし'
+#    '可愛い': 'かわいい'
+#    '可愛く': 'かわいく'
+#    '取りあえず': 'とりあえず'
+
 #  regex:
-#    "(?<=example)(SubsRefine)": "\\1"  # This is an example
+#    '(?<=\d),[ 　]?(?=\d{3}([^\d]|$))': ''  # Remove comma in numbers
+#    '[ヶケヵカ]([月所])': 'か\1'
 
