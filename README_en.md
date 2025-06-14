@@ -6,45 +6,70 @@ Supports Python 3.11 and above.
 
 ## Features
 
-- 📖 Supports reading subtitles in ass, srt, and vtt formats
-- ⭐ Merges duplicate timing lines
-- 🔊 Removes interjections
-- ⚙️ Output Settings
+- Supports reading subtitles in ass, srt, and vtt formats
+- Merges duplicate timing lines
+- Removes interjections
+- Output Settings
   - Supported formats: `txt`, `ass`, `srt`
   - Append characters at the end of lines
   - Output speaker names
   - Pause cues
-- 🔄 Full-width and half-width conversion
+- Full-width and half-width conversion
   - Converts full-width alphanumerics to half-width
   - Converts half-width katakana to full-width
-- 📏 Adds spaces between Japanese and Latin characters
-- 🧹 Removes unnecessary information
+- Adds spaces between Japanese and Latin characters
+- Removes unnecessary information
   - Strips position, color, and other formatting details
   - Remove unrecognized GAIJI
-- ✅ Adjusts Repeated syllables
-- 📂 Batch conversion
+- Adjusts Repeated syllables
+- Batch conversion
 
 ## Usage
 
 ### Command-line
 
 ```
-usage: cli.py [-h] [--conf CONF] [--verbose]
-              [--merge-strategy {none,auto,force}]
-              [--filter-interjections | --no-filter-interjections | -fi]
-              [--output-dir OUTPUT_DIR]
-              [--output-format {txt,srt,ass}]
-              [--output-ending OUTPUT_ENDING]
-              [--show-speaker | --no-show-speaker | -a]
-              [--show-pause-tip SHOW_PAUSE_TIP]
-              [--full-half-numbers {skip,half,full,single_full}]
-              [--full-half-letters {skip,half,full,single_full}]
-              [--convert-half-katakana | --no-convert-half-katakana]
-              [--cjk-spacing | --no-cjk-spacing]
-              [--cjk-space-char CJK_SPACE_CHAR]
-              [--repetition-adjustment | --no-repetition-adjustment | -r]
+usage: cli.py [-h] [--conf CONF] [--verbose] [-m {none,auto,force}] [-i] [-I] [-o OUTPUT_DIR] [-f {txt,srt,ass}]
+              [-e OUTPUT_ENDING] [-s] [-S] [-p SHOW_PAUSE_TIP] [--numbers {skip,half,full,single_full}]
+              [--letters {skip,half,full,single_full}] [-k] [-K] [-c] [-C] [--cjk-space-char CJK_SPACE_CHAR] [-r] [-R]
               [--repetition-connector REPETITION_CONNECTOR]
               path [path ...]
+
+positional arguments:
+  path                  Input files/directories
+
+options:
+  -h, --help            show this help message and exit
+  --conf CONF           Configuration file path
+  --verbose             Enable debug logging
+  -m {none,auto,force}, --merge-strategy {none,auto,force}
+                        Strategy for merging overlapping time-aligned lines
+  -i                    Enable interjection filtering
+  -I                    Disable interjection filtering
+  -o OUTPUT_DIR, --output-dir OUTPUT_DIR
+                        Directory to store output files
+  -f {txt,srt,ass}, --output-format {txt,srt,ass}
+                        Output file format (e.g., txt, srt, json)
+  -e OUTPUT_ENDING, --output-ending OUTPUT_ENDING
+                        String to append at the end of each line
+  -s                    Enable speaker name display
+  -S                    Disable speaker name display
+  -p SHOW_PAUSE_TIP, --show-pause-tip SHOW_PAUSE_TIP
+                        Show pause tip if pause exceeds this duration (in milliseconds)
+  --numbers {skip,half,full,single_full}
+                        Conversion strategy for full-width/half-width numbers
+  --letters {skip,half,full,single_full}
+                        Conversion strategy for full-width/half-width letters
+  -k                    Enable conversion of half-width katakana to full-width
+  -K                    Disable conversion of half-width katakana to full-width
+  -c                    Enable automatic spacing between CJK and latin characters
+  -C                    Disable automatic spacing between CJK and latin characters
+  --cjk-space-char CJK_SPACE_CHAR
+                        Custom space character to insert between CJK and latin characters
+  -r                    Enable adjustment of repeated phrases
+  -R                    Disable adjustment of repeated phrases
+  --repetition-connector REPETITION_CONNECTOR
+                        Connector used between repeated syllables
 ```
 
 **Note:**
