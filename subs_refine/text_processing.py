@@ -32,16 +32,18 @@ def convert_half_katakana(text) -> str:
 
 
 def convert_half_full_chars(text, full_half_mapping, half_full_mapping, strategy) -> str:
-    if strategy == ConversionStrategy.SKIP:
-        return text
-    elif strategy == ConversionStrategy.HALF:
-        return text.translate(full_half_mapping)
-    elif strategy == ConversionStrategy.FULL:
-        return text.translate(half_full_mapping)
-    elif strategy == ConversionStrategy.SINGLE_FULL:
-        text = text.translate(full_half_mapping)
-        text = re.sub(r"(?<!\d)(\d)(?!\d)", lambda m: m[1].translate(half_full_mapping), text)
-        return text
+    match strategy:
+        case ConversionStrategy.SKIP:
+            return text
+        case ConversionStrategy.HALF:
+            return text.translate(full_half_mapping)
+        case ConversionStrategy.FULL:
+            return text.translate(half_full_mapping)
+        case ConversionStrategy.SINGLE_FULL:
+            text = text.translate(full_half_mapping)
+            text = re.sub(r"(?<!\d)(\d)(?!\d)", lambda m: m[1].translate(half_full_mapping), text)
+            text = re.sub(r"(?<![a-zA-Z])([a-zA-Z])(?![a-zA-Z])", lambda m: m[1].translate(half_full_mapping), text)
+            return text
     raise ValueError(f"Invalid conversion strategy: {strategy}")
 
 
