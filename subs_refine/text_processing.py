@@ -89,16 +89,6 @@ def cjk_spacing(text: str, space: str = "\u2006") -> str:
     return "".join(result)
 
 
-def clean_up_text(text) -> str:
-    text = re.sub(r"{[^}]+}", "", text)  # 去除tag
-    text = re.sub(r"\([^)]+\)", "", text)  # 去除括号
-    text = re.sub(r"\[[^]]+]", "", text)  # 去除外字
-    # 去除冒号说话人
-    if "：" in text and text.index("：") < 8:
-        text = text[text.index("：") + 1:]
-    return text
-
-
 def filter_interjections(text) -> str:
     if not text:
         return ""
