@@ -179,8 +179,8 @@ def tv_ass_process(doc: Subtitle, config: ProcessingConfig) -> None:
     doc.events.pop(del_list)
     logger.info(f"Removed {len(del_list)} Rubi events")
 
-    raw = "!?．％／＆＋－＝･“”(): ｡。"
-    converted = "！？.%/&+-=・「」（）：\u3000\u3000\u3000"
+    raw = "!?．％／＆＋－＝･“”():〜 ｡。"
+    converted = "！？.%/&+-=・「」（）：～\u3000\u3000\u3000"
     full_half_conversion(doc, config.full_half_conversion, raw, converted)
     logger.info("Normalized full-width/half-width characters")
 
