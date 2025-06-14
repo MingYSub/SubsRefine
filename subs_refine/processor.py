@@ -80,8 +80,8 @@ def full_half_conversion(doc: Subtitle, conversion: FullHalfConversion, raw: str
 def _tv_text_preprocessing(doc: Subtitle) -> None:
     for event in doc.events:
         # remove audio markers
-        if event.text.startswith(AUDIO_MARKERS):
-            event.text = event.text[1:]
+        for marker in AUDIO_MARKERS:
+            event.text = event.text.removeprefix(marker)
         event.text = event.text.replace("\u3000\u3000", "\u3000").strip()
         # handle gaiji
         event.text = re.sub(r"\[外：[0-9A-Z]{32}]", "", event.text)
