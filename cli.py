@@ -43,32 +43,74 @@ def main():
     process_paths(args.path, config)
 
 
+def add_boolean_pair(parser, flag: str, dest: str, help_text: str = ""):
+    parser.add_argument(f"-{flag}", action="store_true", dest=dest, default=None,
+                        help=f"Enable {help_text}".strip())
+    parser.add_argument(f"-{flag.upper()}", action="store_false", dest=dest, default=None,
+                        help=f"Disable {help_text}".strip())
+
+
 def add_config_arguments(parser):
     # ProcessingConfig
-    parser.add_argument("--merge-strategy", "-m", type=MergeStrategy, choices=list(MergeStrategy))
-    parser.add_argument("--filter-interjections", "-fi", action=argparse.BooleanOptionalAction, default=None)
+    parser.add_argument(
+        "-m", "--merge-strategy",
+        type=MergeStrategy, choices=list(MergeStrategy),
+        help="Strategy for merging overlapping time-aligned lines"
+    )
+    add_boolean_pair(parser, "i", "filter_interjections", "interjection filtering")
 
     # OutputSettings
-    parser.add_argument("--output-dir", type=Path)
-    parser.add_argument("--output-format", type=OutputFormat, choices=list(OutputFormat))
-    parser.add_argument("--output-ending", type=str)
-    parser.add_argument("--show-speaker", "-a", action=argparse.BooleanOptionalAction, default=None)
-    parser.add_argument("--show-pause-tip", type=int)
+    parser.add_argument(
+        "-o", "--output-dir",
+        type=Path,
+        help="Directory to store output files"
+    )
+    parser.add_argument(
+        "-f", "--output-format",
+        type=OutputFormat, choices=list(OutputFormat),
+        help="Output file format (e.g., txt, srt, json)"
+    )
+    parser.add_argument(
+        "-e", "--output-ending",
+        type=str,
+        help="String to append at the end of each line"
+    )
+    add_boolean_pair(parser, "s", "show_speaker", "speaker name display")
+    parser.add_argument(
+        "-p", "--show-pause-tip",
+        type=int,
+        help="Show pause tip if pause exceeds this duration (in milliseconds)"
+    )
 
     # FullHalfConversion
-    parser.add_argument("--full-half-numbers", type=ConversionStrategy, choices=list(ConversionStrategy))
-    parser.add_argument("--full-half-letters", type=ConversionStrategy, choices=list(ConversionStrategy))
-    parser.add_argument("--convert-half-katakana", action=argparse.BooleanOptionalAction, default=None)
+    parser.add_argument(
+        "--numbers",
+        type=ConversionStrategy, choices=list(ConversionStrategy), dest="full_half_numbers",
+        help="Conversion strategy for full-width/half-width numbers"
+    )
+    parser.add_argument(
+        "--letters",
+        type=ConversionStrategy, choices=list(ConversionStrategy), dest="full_half_letters",
+        help="Conversion strategy for full-width/half-width letters"
+    )
+    add_boolean_pair(parser, "k", "convert_half_katakana", "conversion of half-width katakana to full-width")
 
     # CJKSpacing
-    parser.add_argument("--cjk-spacing", action=argparse.BooleanOptionalAction, dest="cjk_spacing_enabled",
-                        default=None)
-    parser.add_argument("--cjk-space-char", type=str)
+    add_boolean_pair(parser, "c", "cjk_spacing_enabled", "automatic spacing between CJK and latin characters")
+    parser.add_argument(
+        "--cjk-space-char",
+        type=str,
+        help="Custom space character to insert between CJK and latin characters"
+    )
 
     # RepetitionHandling
-    parser.add_argument("--repetition-adjustment", "-r", action=argparse.BooleanOptionalAction,
-                        dest="repetition_enabled", default=None)
-    parser.add_argument("--repetition-connector", type=str)
+    add_boolean_pair(parser, "r", "repetition_enabled", "adjustment of repeated phrases")
+    parser.add_argument(
+        "--repetition-connector",
+        type=str,
+        help="Connector used between repeated syllables"
+    )
+
 
 
 def build_override_dict(args) -> dict:
