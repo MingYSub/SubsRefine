@@ -63,7 +63,7 @@ class Subtitle:
             pos = Position(*map(int, pos_match.groups())) if pos_match else Position(0, 0)
 
             text = re.sub(r"{([^}]*)\\c&[0-9a-fhA-FH]([^}]*)}(\s*{\\c&[0-9a-fhA-FH][^}]*})", r"{\1\2}\3", text)
-            color_match = re.search(r"\\c([&hH0-9a-fA-F]+?)(?=[\\}])", text)
+            color_match = re.search(r"\\1?c([&hH]*[0-9a-fA-F]+)", text)
             color = Color.parse(color_match.group(1)) if color_match else Color(255, 255, 255)
 
             text = OVERRIDE_BLOCK_PATTERN.sub("", text)
